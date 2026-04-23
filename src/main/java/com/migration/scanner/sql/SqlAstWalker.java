@@ -24,6 +24,16 @@ import net.sf.jsqlparser.statement.select.WithItem;
 import net.sf.jsqlparser.statement.update.Update;
 
 final class SqlAstWalker extends StatementVisitorAdapter {
+    private static final Set<String> ORACLE_FUNCTION_RISKS = Set.of(
+        "NVL",
+        "DECODE",
+        "SYSDATE",
+        "SYSTIMESTAMP",
+        "TO_DATE",
+        "TO_CHAR",
+        "LISTAGG"
+    );
+
     private final Set<String> columns;
     private final Set<String> joins;
     private final Set<String> risks;
@@ -45,7 +55,7 @@ final class SqlAstWalker extends StatementVisitorAdapter {
             @Override
             public void visit(Function function) {
                 String name = function.getName() == null ? "" : function.getName().toUpperCase(Locale.ROOT);
-                if (!name.isBlank()) {
+                if (ORACLE_FUNCTION_RISKS.contains(name)) {
                     risks.add(name);
                 }
                 super.visit(function);
