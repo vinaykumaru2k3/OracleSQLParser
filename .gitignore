@@ -1,0 +1,21 @@
+# Maven / Java build output
+target/
+*.class
+
+# Generated scan reports
+reports/
+out-reports/
+named-reports/
+jar-reports/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
